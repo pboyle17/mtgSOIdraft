@@ -54,18 +54,35 @@ $.ajax({
           id = arr[card].multiverseid;
           imgHTMLstr = '<span class="card" id ="'+id+'"><img src="'+imgURL+id+imgURLend+'"></span>';
           $('.cards').append(imgHTMLstr);
+          if(arr[card].layout == 'double-faced'){
+            $('#'+id).click(function(){
+              console.log(arr[card].names);
+              console.log('flip the card');
+            });
+          }
         }
       } else {
         id = arr.multiverseid;
         imgHTMLstr = '<span class="card" id ="'+id+'"><img src="'+imgURL+id+imgURLend+'"></span>';
         $('.cards').append(imgHTMLstr);
-      }
-    };
+        $('#'+id).click(function(){
+        var thing=shadows.cards.filter(function(card){
+          if(card.multiverseid == id){
+            return card;
+          }
+        });
 
-    console.log(shadows.cards.length);
-   shadows.randomIndex = function(){
-      return Math.floor(Math.random()*shadows.cards.length);
-    };
+        if(thing.layout == 'double-faced'){
+          id++;
+          imgHTMLstr = '<span class="card" id ="'+id+'"><img src="'+imgURL+id+imgURLend+'"></span>';
+          $(this).attr('src',imgHTMLstr);
+        }
+      });//end of click listener
+
+
+    }//end of Array.isArray if/else block
+  };//end of render function
+
   },
   complete:function(){
       $('span').click(function(){
